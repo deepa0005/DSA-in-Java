@@ -93,29 +93,86 @@ public static void subArray(int num[]){
     }
     System.out.println("total no of subarrays " + ts);
 }
-    public static void main(String args[]) {
-        int num[] = { 2, 3, 4, 5, 6 };
-        // int key = 4;
-        // int index = linearSearch(num, key);
-        // if(index==-1){
-        // System.out.println("not found");
-        // }else{
-        // System.out.println("key is in idx" + index);
-        // }
 
-        // System.out.println("largest of num is " + largestinNum(num));
-        // System.out.println("the key is found in " + binarySearch(num, key));
+//Kadanes algo 
+public static void kadanes(int num[]){
+    int cs= 0;
+    int ms = Integer.MIN_VALUE;
+
+    for(int i=0; i<num.length; i++){
+        cs = cs + num[i];
+        if(cs<0){
+            cs = 0;
+        }
+        ms = Math.max(cs, ms);
+    }
+    System.out.println("our max subarray is :" + ms);
+}
 
 
-        // //print
-        // reverseArray(num);
-        // for(int i=0; i<num.length; i++){
-        //     System.out.print(num[i] + " ");
-        // }
-        //   System.out.println();
+//TRapped Rain Water
+public static int trappedRainWater(int height[]){
+    int n = height.length;
+    //left max boundary
+    int Leftmax [] = new int [n]; 
+Leftmax[0] = height[0];
+for(int i =1; i<n; i++ ){
+    Leftmax[i] = Math.max(height[i], Leftmax[i-1]);
+}
+    //right max boundary
+int rightMax[] = new int[n];
+ rightMax[n-1] = height[n-1] ;
+ for(int i = n-2; i>=0; i--){
+    rightMax[i]=Math.max(height[i], rightMax[i+1]);
+ }
+ 
+ //loop
+ int trappedWater = 0;
+ for(int i=0; i<n; i++){
+    int WaterLevel = Math.min(Leftmax[i], rightMax[i]);
+    trappedWater += WaterLevel - height[i];
+ }
+ 
+ return trappedWater;
+ //water level = min(leftmax , rightMax)
+//  TrappedWater = water level - hieght[i]
+}
 
-        // pairs(num);
 
-        subArray(num);
+//buy sell stock
+public static int buySellStock(int prices[]){
+int buyPrice = Integer.MAX_VALUE;
+int MaxProfit = 0;
+
+for(int i = 0; i<prices.length; i++){
+    if(buyPrice<prices[i]){
+      int  profit = prices[i]-buyPrice; //todays profit
+      MaxProfit = Math.max(MaxProfit, profit); //global profit
+    }
+    else{
+        buyPrice = prices[i];
+
+    }
+}
+return MaxProfit;
+}
+
+public static int repeatedArray(int nums []){
+
+    for(int i = 0; i<nums.length; i++){
+        for(int j = i+1; j<nums.length; j++){
+            if(nums[i] == nums[j]){
+                return 1;
+            }
+            
+        }
+    }
+    return 0;
+}
+public static void main(String args[]) {
+    // int prices[] = { 7, 1, 5, 3, 6, 4};
+    // System.out.println(buySellStock(prices));
+    int nums[] = {1, 2, 3, 1};
+    System.out.println(repeatedArray(nums));
     }
 }
